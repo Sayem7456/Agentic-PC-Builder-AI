@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { PCConfiguration } from '../types';
 
@@ -7,6 +6,24 @@ interface ConfigurationDisplayProps {
 }
 
 export const ConfigurationDisplay: React.FC<ConfigurationDisplayProps> = ({ configuration }) => {
+  const currencyCode = configuration.currency || 'USD';
+
+  const formatCurrency = (amount: number) => {
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currencyCode,
+      }).format(amount);
+    } catch (error) {
+      console.error(`Invalid currency code provided: ${currencyCode}. Defaulting to USD.`, error);
+      // Fallback for invalid currency codes
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(amount);
+    }
+  };
+
   return (
     <div className="bg-gray-800/50 rounded-2xl shadow-lg p-6 md:p-8 backdrop-blur-sm border border-gray-700/50 animate-fade-in">
       <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
@@ -14,7 +31,7 @@ export const ConfigurationDisplay: React.FC<ConfigurationDisplayProps> = ({ conf
         <div className="text-right">
           <p className="text-gray-400">Total Estimated Cost</p>
           <p className="text-3xl font-bold text-green-400">
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency: configuration.currency || 'USD' }).format(configuration.totalPrice)}
+            {formatCurrency(configuration.totalPrice)}
           </p>
         </div>
       </div>
@@ -31,7 +48,7 @@ export const ConfigurationDisplay: React.FC<ConfigurationDisplayProps> = ({ conf
             </div>
             <div className="md:col-span-2 text-left md:text-right">
               <p className="text-lg font-medium text-green-400">
-                {new Intl.NumberFormat('en-US', { style: 'currency', currency: configuration.currency || 'USD' }).format(component.price)}
+                {formatCurrency(component.price)}
               </p>
             </div>
             <div className="md:col-span-3 text-left md:text-right">
