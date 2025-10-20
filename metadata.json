@@ -1,0 +1,5 @@
+{
+  "name": "Agentic PC Builder AI",
+  "description": "An AI-powered system that generates optimal PC configurations based on user-specified use cases and budgets. It autonomously recommends the best components with purchase links adjusted to the user's region while staying within the expected budget.",
+  "requestFramePermissions": []
+}
